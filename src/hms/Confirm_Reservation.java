@@ -29,15 +29,23 @@ public class Confirm_Reservation extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Confirm Reservation");
         //this.setLocationRelativeTo(null);
-  this.setLocation(370, 180);
+        this.setLocation(370, 180);
         //this.setSize(1366, 768);
     }
-
+    
     Connection conn;
+    String ArrivalD, DepartureD,noRooms,roomtype,nights,totcost,uname;
 
     //one parameter constructor
-    public Confirm_Reservation(String noRooms, String roomtype, int night, String perNight) throws SQLException {
+    public Confirm_Reservation(String arrivalD, String departureD, String noRooms, String roomtype, Integer night, String perNight,String uname) throws SQLException {
         initComponents();
+        this.ArrivalD = arrivalD;
+        this.DepartureD = departureD;
+        this.nights= night.toString();
+        this.roomtype=roomtype;
+        this.noRooms=noRooms;
+        this.uname=uname;
+        System.out.println("******&&"+uname);
         this.setTitle("Confirm Reservation");
         // this.setLocationRelativeTo(null);
         this.setLocation(370, 200);
@@ -47,15 +55,18 @@ public class Confirm_Reservation extends javax.swing.JFrame {
         JLabel background = new JLabel(new ImageIcon("C:\\Users\\Samitha\\Documents\\NetBeansProjects\\HMS\\src\\images\\hotel6.jpg"));
         add(background);
         background.setLayout(new FlowLayout());
-
+        
         int perNight1 = Integer.parseInt(perNight);
-        Integer tot = perNight1 * night;
-
+        Integer totpay = perNight1 * night * Integer.parseInt(noRooms);
+        
         norooms.setText(noRooms);
+        norooms.setEditable(false);
         room_type.setText(roomtype);
-        roomCharges.setText(tot.toString());
+        room_type.setEditable(false);
+        roomCharges.setText(totpay.toString());
+        roomCharges.setEditable(false);
         conn = DBConnect.getConnection();
-
+        
         String sql1 = "select Tax from roominfo where RoomType=?";
         PreparedStatement ps1 = conn.prepareStatement(sql1);
         // Statement stmt = conn.createStatement();
@@ -64,7 +75,11 @@ public class Confirm_Reservation extends javax.swing.JFrame {
         ResultSet rs1 = ps1.executeQuery();
         rs1.first();
         String tax = rs1.getString("Tax");
-        tax1.setText(tax);
+        int taxes = Integer.parseInt(tax);
+        Integer tottax = taxes * night * Integer.parseInt(noRooms);
+        
+        tax1.setText(tottax.toString());
+        tax1.setEditable(false);
 
         //set the fee value to the text box fee
         String sql2 = "select Fees from roominfo where RoomType=?";
@@ -73,12 +88,16 @@ public class Confirm_Reservation extends javax.swing.JFrame {
         ResultSet rs2 = ps2.executeQuery();
         rs2.first();
         String fee = rs2.getString("Fees");
-        fee1.setText(fee);
-
-        Integer total1 = Integer.parseInt(tax) + Integer.parseInt(fee) + tot;
-        total.setText(total1.toString());
-        pay.setText(total1.toString());
-
+        int fees = Integer.parseInt(fee);
+        Integer totfee = fees * night * Integer.parseInt(noRooms);
+        fee1.setText(totfee.toString());
+        fee1.setEditable(false);
+        Integer totalcost = totfee + tottax + totpay;
+        total.setText(totalcost.toString());
+        this.totcost=totalcost.toString();
+        pay.setText(totalcost.toString());
+        total.setEditable(false);
+        pay.setEditable(false);
         //this.setSize(1366, 768);
     }
 
@@ -172,7 +191,7 @@ public class Confirm_Reservation extends javax.swing.JFrame {
                                         .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel9)
                                     .addComponent(jLabel14)
@@ -235,7 +254,7 @@ public class Confirm_Reservation extends javax.swing.JFrame {
                     .addComponent(jLabel14))
                 .addGap(43, 43, 43)
                 .addComponent(jButton1)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -243,7 +262,7 @@ public class Confirm_Reservation extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new reservation_guestDetails().setVisible(true);
+        new reservation_guestDetails(ArrivalD, DepartureD,noRooms,roomtype,nights,totcost,uname).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

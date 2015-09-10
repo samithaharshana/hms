@@ -27,22 +27,21 @@ public class AddCustomer extends javax.swing.JFrame {
     /**
      * Creates new form AddCustomer
      */
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
+   
 
     public AddCustomer() {
         initComponents();
 
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        this.setLocationRelativeTo(null);
     }
 
-    public void DBconn() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver"); // mysql DB connection
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hms?" + "user=root&password=");
-        //stmt = conn.createStatement();
-    }
+//    public void DBconn() throws ClassNotFoundException, SQLException {
+//        Class.forName("com.mysql.jdbc.Driver"); // mysql DB connection
+//        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hms?" + "user=root&password=");
+//        //stmt = conn.createStatement();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -294,10 +293,15 @@ public class AddCustomer extends javax.swing.JFrame {
         String passport_no = passportNo.getText();
         String mailaddress = email.getText();
 
+          Connection conn = null;
+         // Statement stmt = null;
+         // ResultSet rs = null;
+        
         try {
             // TODO add your handling code here:
-            Class.forName("com.mysql.jdbc.Driver"); // mysql DB connection
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hms?" + "user=root&password=");
+//            Class.forName("com.mysql.jdbc.Driver"); // mysql DB connection
+//            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hms?" + "user=root&password=");
+            conn= DBConnect.getConnection();
 
             String sql = "INSERT INTO guestdetails(GuestID,GuestName,Gender,MarriedState,DOB,Address,City,State,Country,ContactNo,PassportNo,Email) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -317,8 +321,6 @@ public class AddCustomer extends javax.swing.JFrame {
             ps.executeUpdate();
             conn.close();
              JOptionPane.showMessageDialog(null, "A one record deleted successfully", "Sucess", JOptionPane.PLAIN_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }

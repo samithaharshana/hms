@@ -13,6 +13,8 @@ import java.sql.SQLException;
  *
  * @author Samitha
  */
+
+
 public class DBConnect {
 
     static Connection conn = null;
@@ -34,6 +36,7 @@ public class DBConnect {
         return this.conn;
     }
 
+    //singleton design pattern usage
     public static Connection getConnection() {
 
         if (DBConnect.conn == null) {

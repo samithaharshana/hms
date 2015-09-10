@@ -73,6 +73,7 @@ public class reservation_selectRooms extends javax.swing.JFrame {
         Arrival_date.setEditable(false);
         Depature_date.setEditable(false);
 
+        
         conn = DBConnect.getConnection();
         rooms.removeAllItems();
         ResultSet rs1;
@@ -81,44 +82,54 @@ public class reservation_selectRooms extends javax.swing.JFrame {
             stmt1 = conn.createStatement();
             rs1 = stmt1.executeQuery("select RoomType from roominfo");
 
+            
             while (rs1.next()) {
-                rooms.addItem(rs1.getString("RoomType"));
+                rooms.addItem(rs1.getString("RoomType")); //set the usertype to combobox
             }
 
             //test
             //at form loading 
-            String res1 = perNight.getText();
-
-            int res = Integer.parseInt(res1);
-            System.out.println(res);
-            String roomtype = rooms.getSelectedItem().toString();
-            String sql2 = "select * from roominfo where RoomType=?";
-            PreparedStatement ps2 = conn.prepareStatement(sql2);
-            ps2.setString(1, roomtype);
-            ResultSet rs3 = ps2.executeQuery();
-            rs3.first();
-            String result1 = rs3.getString(8);
-            String result2 = rs3.getString(9);
-            int tax = Integer.parseInt(result1);
-            int fee = Integer.parseInt(result2);
-            Integer tot = (res + tax + fee) * night;
-            String totstr = tot.toString();
-            System.out.println(tax);
-            System.out.println(night);
-            total.setText(totstr);
+//            String res1 = perNight.getText();//getting room price for urther calculations
+//
+//            int res = Integer.parseInt(res1);
+//            System.out.println(res);
+//            String roomtype = rooms.getSelectedItem().toString();
+//            String sql2 = "select * from roominfo where RoomType=?";
+//            PreparedStatement ps2 = conn.prepareStatement(sql2);
+//            ps2.setString(1, roomtype);
+//            ResultSet rs3 = ps2.executeQuery();
+//            rs3.first();
+//            String result1 = rs3.getString(8);//tax
+//            String result2 = rs3.getString(9);//fees
+//            int tax = Integer.parseInt(result1);
+//            int fee = Integer.parseInt(result2);
+//            Integer tot = (res + tax + fee) * night;
+//            String totstr = tot.toString();
+//            System.out.println(tax);
+//            System.out.println(night);
+//            total.setText(totstr);
+//            total.setEditable(false);
 
         } catch (Exception e) {
         }
 
     }
+    
+    String arrivalD,departureD,uname;
 
-    public void text(String arrival, String departure, String date) throws SQLException {
+    public void text(String arrival, String departure, String noNights,String uname) throws SQLException {
 //        System.out.println(arrival);
 //        System.out.println(departure);
         Arrival_date.setText(arrival);
         Depature_date.setText(departure);
-        nights.setText(date);
-        night = Integer.parseInt(date);
+        nights.setText(noNights);
+        nights.setEditable(false);
+        night = Integer.parseInt(noNights);
+        this.arrivalD=arrival;
+        this.departureD=departure;
+        this.uname=uname;
+        System.out.println("******&&"+uname);
+        
     }
 
     /**
@@ -181,7 +192,13 @@ public class reservation_selectRooms extends javax.swing.JFrame {
 
         NoOfRooms.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
 
-        jLabel8.setText("Total cost per selected room");
+        jLabel8.setText("Total cost per selected room per Room");
+
+        total.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("USD");
 
@@ -197,14 +214,10 @@ public class reservation_selectRooms extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(48, Short.MAX_VALUE)
+                .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nights, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,11 +230,10 @@ public class reservation_selectRooms extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(rooms, 0, 173, Short.MAX_VALUE)
+                                    .addComponent(rooms, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(45, 45, 45)
@@ -231,8 +243,14 @@ public class reservation_selectRooms extends javax.swing.JFrame {
                                 .addGap(63, 63, 63)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(NoOfRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(26, Short.MAX_VALUE))
+                                    .addComponent(NoOfRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(nights, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(24, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -291,9 +309,10 @@ public class reservation_selectRooms extends javax.swing.JFrame {
         // TODO add your handling code here:
         String noRooms = NoOfRooms.getSelectedItem().toString();
         String roomtype = rooms.getSelectedItem().toString();
-        String perNight1 = perNight.getText();
+        String perNightfee = perNight.getText();
+        
         try {
-            new Confirm_Reservation(noRooms, roomtype, night, perNight1).setVisible(true);
+            new Confirm_Reservation(arrivalD,departureD,noRooms, roomtype, night, perNightfee,uname).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(reservation_selectRooms.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -303,31 +322,37 @@ public class reservation_selectRooms extends javax.swing.JFrame {
     private void roomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomsActionPerformed
 
         try {
-
-            String roomtype = rooms.getSelectedItem().toString();
-            String sql1 = "select FeePerDay from roominfo where RoomType=?";
+//***********this is for  setting the per day value for selected room type****************
+            String roomtype = rooms.getSelectedItem().toString();//get the user selected room type
+            String sql1 = "select FeePerDay from roominfo where RoomType=?";//query to find perday fee for selectes type
             PreparedStatement ps1 = conn.prepareStatement(sql1);
-            ps1.setString(1, roomtype);
-            ResultSet rs2 = ps1.executeQuery();
-            rs2.first();
-            String result = rs2.getString("FeePerDay");
-            perNight.setText(result);
-            int res = Integer.parseInt(result);
+            ps1.setString(1, roomtype);//set the roomtype in query
+            ResultSet rs2 = ps1.executeQuery();//execute the query
+            rs2.first();//Moves the cursor to the first row in this ResultSet object.
+            String costperday = rs2.getString("FeePerDay"); //calling getstring in column name and get the fee of onr night
+            perNight.setText(costperday);//set the fee in textbox
+            perNight.setEditable(false);
+            
+            
+            //**********calculating tot pay for a day  for selected roomtype
+            int nightfee = Integer.parseInt(costperday);//convert to int
 
             String sql2 = "select * from roominfo where RoomType=?";
             PreparedStatement ps2 = conn.prepareStatement(sql2);
             ps2.setString(1, roomtype);
             ResultSet rs3 = ps2.executeQuery();
             rs3.first();
-            String result1 = rs3.getString(8);
-            String result2 = rs3.getString(9);
+            String result1 = rs3.getString(8);//get the tax from Database
+            String result2 = rs3.getString(9);// get the fee form database
             int tax = Integer.parseInt(result1);
             int fee = Integer.parseInt(result2);
-            Integer tot = (res + tax + fee) * night;
-            String totstr = tot.toString();
-            System.out.println(tax);
-            System.out.println(night);
-            total.setText(totstr);
+            //perday cost calculation
+            Integer totfee = (nightfee + tax + fee) * night;// adding taxes and fees for a selected room
+            String totfeestr = totfee.toString();
+            //System.out.println(tax);
+           // System.out.println(night);
+            total.setText(totfeestr);// setting the total cost for a day
+            total.setEditable(false);
         } catch (Exception e) {
         }
 
@@ -342,6 +367,10 @@ public class reservation_selectRooms extends javax.swing.JFrame {
             Logger.getLogger(reservation_selectRooms.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void totalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalActionPerformed
 
     /**
      * @param args the command line arguments

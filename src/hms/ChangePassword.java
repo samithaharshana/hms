@@ -32,12 +32,12 @@ public class ChangePassword extends javax.swing.JFrame {
     /**
      * Creates new form ChangePassword
      */
-    Connection conn = DBConnect.getConnection();
+  
 
    // int i, j, k = 0;
     //  String user_name;
     public ChangePassword() {
-
+        
         initComponents();
         this.setLocationRelativeTo(null);//set center location
         setSize(512, 370);//set the window size
@@ -165,7 +165,7 @@ public class ChangePassword extends javax.swing.JFrame {
             
             Statement stmt = null;
             ResultSet rs = null;
-
+  Connection conn = DBConnect.getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from reg");
 
@@ -219,6 +219,7 @@ public class ChangePassword extends javax.swing.JFrame {
                             System.out.println("in forth if");
                              String NewPassword1 = en.MD5(NewPassword);
                             String sql = "UPDATE reg SET Password=? WHERE UserName=?";
+                              Connection conn = DBConnect.getConnection();
                             PreparedStatement ps = conn.prepareStatement(sql);
 
                             ps.setString(1, NewPassword1);

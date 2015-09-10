@@ -18,6 +18,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import hms.Reservation;
 
 /**
  *
@@ -31,12 +32,52 @@ public class reservation_guestDetails extends javax.swing.JFrame {
     Connection conn;
     ButtonGroup group = new ButtonGroup();
 
-    public reservation_guestDetails() {
+  
+    String ArrivalD,DepartureD;
+ String night,roomtype,totcost,noRooms,uname;
+    // constructor begin
+    public reservation_guestDetails(String arrivalD,String departureD,String noRooms,String roomtype,String nights,String totcost,String uname) {
+        initComponents();
+        
+        this.ArrivalD=arrivalD;
+        this.DepartureD=departureD;
+        this.night=nights;
+        this.totcost=totcost;
+        this.noRooms=noRooms;
+        this.roomtype=roomtype;
+        this.uname=uname;
+        System.out.println("******&&4"+uname);
+        this.setTitle("Add Guest Details");
+        //this.setLocationRelativeTo(null);
+        this.setSize(1366, 768);
+
+        setLayout(new BorderLayout()); // set a new boder layout
+        //adding a background image
+        JLabel background = new JLabel(new ImageIcon("C:\\Users\\Samitha\\Documents\\NetBeansProjects\\HMS\\src\\images\\sea.jpg"));
+        add(background);
+        background.setLayout(new FlowLayout());
+
+        //adding a button group 
+        group = new ButtonGroup();
+        group.add(yes_btn);
+        group.add(No_btn);
+        yes_btn.setActionCommand("YES");
+        No_btn.setActionCommand("NO");
+
+        //limited to 19 characters
+        cardNumber.setDocument(new JTextFieldLimit(19));
+        owner.setDocument(new JTextFieldLimit(32));
+        code.setDocument(new JTextFieldLimit(4));
+        payment.setEditable(false);
+
+        // this.setSize(1366, 768);
+    }
+     public reservation_guestDetails() {
         initComponents();
         this.setTitle("Add Guest Details");
         //this.setLocationRelativeTo(null);
         this.setSize(1366, 768);
-        
+
         setLayout(new BorderLayout()); // set a new boder layout
         //adding a background image
         JLabel background = new JLabel(new ImageIcon("C:\\Users\\Samitha\\Documents\\NetBeansProjects\\HMS\\src\\images\\sea.jpg"));
@@ -445,9 +486,17 @@ public class reservation_guestDetails extends javax.swing.JFrame {
 //		}
 //	}
 //        
+   
+//    public void setresult(String night,String roomtype,String totcost){
+//        this.night=night;
+//        this.roomtype=roomtype;
+//        this.totcost=totcost;
+//    
+//    }
+    
     private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
         // TODO add your handling code here:
-        conn = DBConnect.getConnection();
+        System.out.println(night+" "+ roomtype +"  "+totcost+"   "+noRooms);
 
         String fName = first_name.getText();
         String lName = last_name.getText();
@@ -476,31 +525,54 @@ public class reservation_guestDetails extends javax.swing.JFrame {
         String time = hours.toString() + "h:" + minutes.toString() + "m:" + seconds.toString() + "s " + session1;
         System.out.println(time);
         String request1 = request.getText();
+        String s = "saram";
+
+        System.out.println(fName + "\n" + lName + "\n" + email1 + "\n" + email2 + "\n" + country1 + "\n" + contact + "\n" + adult1 + "\n" + children + "\n" + cd_type + "\n" + cd_number + "\n" + isGuest + "\n" + owner1 + "\n" + expire + "\n" + sec_code + "\n" + time + "\n" + request1);
 
         boolean isSelected = check.isSelected();
 
         if (email2.equals(email1)) {
             if (isSelected) {
-                String sql = "INSERT INTO reserveguest(FirstName,LastName,Email,Country,Mobile,NoOfAdults,NoOfChildren,ArrivalTime,SpecialRequest,CardType,CardNumber,CardOwnerIsGuest,CardOwner,ExpireDate,SecurityCode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
+                //sql to insert data to the database
+                 String sql = "INSERT INTO reserveguest(UserName,FirstName,LastName,Email,Country,Mobile,NoOfAdults,NoOfChildren,ArrivalDate,DepartureDate,ArrivalTime,SpecialRequest,CardType,CardNumber,CardOwnerIsGuest,CardOwner,ExpireDate,SecurityCode,Nights,RoomType,TotalcostForRoom,NoOfRooms) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                // String sql = "INSERT INTO reserveguest(UserName,UserType,Password,FullName,ContactNo,Email) VALUES (?,?,?,?,?,?)";
+                 //,Nights,RoomType,TotalcostForRoom,NoOfRooms
                 try {
 
+                    conn = DBConnect.getConnection();
+                   // String sql = "INSERT INTO reserveguest(FirstName,LastName) VALUES (?,?)";
                     PreparedStatement ps = conn.prepareStatement(sql);
-                    ps.setString(1, fName);
-                    ps.setString(2, lName);
-                    ps.setString(3, email1);
-                    ps.setString(4, country1);
-                    ps.setString(5, contact);
-                    ps.setString(6, adult1);
-                    ps.setString(7, children);
-                    ps.setString(8, time);
-                    ps.setString(9, request1);
-                    ps.setString(10, cd_type);
-                    ps.setString(11, cd_number);
-                    ps.setString(12, isGuest);
-                    ps.setString(13, owner1);
-                    ps.setString(14, expire);
-                    ps.setString(15, sec_code);
+                    System.out.println("\n********"+uname);
+
+                    ps.setString(1, uname);
+                    ps.setString(2, fName);
+                    ps.setString(3, lName);
+                    ps.setString(4, email1);
+                    ps.setString(5, country1);
+                    ps.setString(6, contact);
+                    ps.setString(7, adult1);
+                    ps.setString(8, children);
+                    ps.setString(9, ArrivalD);
+                    ps.setString(10, DepartureD);
+                    ps.setString(11, time);
+                    ps.setString(12, request1);
+                    ps.setString(13, cd_type);
+                    ps.setString(14, cd_number);
+                    ps.setString(15, isGuest);
+                    ps.setString(16, owner1);
+                    ps.setString(17, expire);
+                    ps.setString(18, sec_code);
+                    ps.setString(19, night);
+                    ps.setString(20, roomtype);
+                    ps.setString(21, totcost);
+                    ps.setString(22, noRooms);
+                    
+//                    ps.setString(19, night);
+//                    ps.setString(20, roomtype);
+//                    ps.setString(21, totcost);
+//                    ps.setString(22, noRooms);
+                   
                     ps.executeUpdate();
 
                 } catch (Exception e) {

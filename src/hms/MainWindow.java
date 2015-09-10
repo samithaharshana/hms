@@ -6,6 +6,7 @@
 package hms;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,11 +26,14 @@ import net.proteanit.sql.DbUtils;
 public class MainWindow extends javax.swing.JFrame {
 
     static Connection conn = null;
-
+String uname;
     /**
      * Creates new form MainWindow
      */
-    public MainWindow() {
+    
+       public MainWindow() {
+          
+      
         initComponents();
         conn = DBConnect.getConnection();
         setSize(1366, 768);//set the window size
@@ -39,8 +43,17 @@ public class MainWindow extends javax.swing.JFrame {
         add(background);
         background.setLayout(new FlowLayout());
        // jpanelbar.createImage(982, 50);
+          this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+         panel1.setBackground(Color.yellow);
     }
 
+       public String setname(String username){
+       user.setText(username);
+       this.uname=username;
+       
+       return uname;
+       }
+       
     // loading the checking table
     public void Checkintable_load() throws ClassNotFoundException, SQLException {
         Statement stmt = null;
@@ -78,11 +91,11 @@ public class MainWindow extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        employee = new javax.swing.JButton();
+        attendance = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
+        payment = new javax.swing.JButton();
+        roominfo = new javax.swing.JButton();
         LogOut = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Checkin_table = new javax.swing.JTable();
@@ -91,6 +104,9 @@ public class MainWindow extends javax.swing.JFrame {
         label1 = new java.awt.Label();
         jButton2 = new javax.swing.JButton();
         label2 = new java.awt.Label();
+        panel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        user = new javax.swing.JLabel();
         Reports = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         item_reg = new javax.swing.JMenuItem();
@@ -106,11 +122,17 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu8 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu9 = new javax.swing.JMenu();
+        empmenu = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
         jMenu11 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("HMS-Main Window");
         setPreferredSize(new java.awt.Dimension(1766, 768));
 
@@ -144,18 +166,33 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButton7.setText("CheckOut");
 
-        jButton8.setText("Employee");
+        employee.setText("Employee");
+        employee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                employeeActionPerformed(evt);
+            }
+        });
 
-        jButton9.setText("Attendence");
+        attendance.setText("Attendence");
+        attendance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                attendanceActionPerformed(evt);
+            }
+        });
 
         jButton13.setText("Room Availability");
 
-        jButton10.setText("Payment");
-
-        jButton11.setText("RoomDetails");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        payment.setText("Payment");
+        payment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                paymentActionPerformed(evt);
+            }
+        });
+
+        roominfo.setText("RoomDetails");
+        roominfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roominfoActionPerformed(evt);
             }
         });
 
@@ -179,13 +216,13 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
+                .addComponent(employee)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton9)
+                .addComponent(attendance)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton10)
+                .addComponent(payment)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton11)
+                .addComponent(roominfo)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jpanelbarLayout.setVerticalGroup(
@@ -197,11 +234,11 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addComponent(employee, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addComponent(attendance, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                .addComponent(payment, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addComponent(roominfo, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
         );
 
         jToolBar1.add(jpanelbar);
@@ -261,6 +298,32 @@ public class MainWindow extends javax.swing.JFrame {
         label2.setBackground(new java.awt.Color(255, 255, 0));
         label2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         label2.setText("Reservation Details");
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setText("WELCOME");
+
+        user.setBackground(new java.awt.Color(255, 255, 0));
+        user.setFont(new java.awt.Font("Dialog", 3, 14)); // NOI18N
+        user.setForeground(new java.awt.Color(255, 0, 0));
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(0, 2, Short.MAX_VALUE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(user, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         jMenu2.setText("Users");
 
@@ -337,8 +400,57 @@ public class MainWindow extends javax.swing.JFrame {
 
         Reports.add(jMenu8);
 
-        jMenu9.setText("Employee");
-        Reports.add(jMenu9);
+        empmenu.setText("Employee");
+
+        jMenuItem1.setText("Add Employee");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        empmenu.add(jMenuItem1);
+
+        jMenuItem7.setText("Emloyee Experience");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        empmenu.add(jMenuItem7);
+
+        jMenuItem9.setText("Attendance");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        empmenu.add(jMenuItem9);
+
+        jMenuItem10.setText("Shift Shedule");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        empmenu.add(jMenuItem10);
+
+        jMenuItem11.setText("Show Employee");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        empmenu.add(jMenuItem11);
+
+        jMenuItem12.setText("payroll");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        empmenu.add(jMenuItem12);
+
+        Reports.add(empmenu);
 
         jMenu10.setText("About Us");
         Reports.add(jMenu10);
@@ -367,6 +479,8 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(LogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -378,7 +492,11 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(13, 13, 13)))
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -474,19 +592,66 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void roominfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roominfoActionPerformed
         try {
             // TODO add your handling code here:
             new roominfo().setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton11ActionPerformed
+    }//GEN-LAST:event_roominfoActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        new Reservation().setVisible(true);
+        new Reservation(uname).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void employeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeActionPerformed
+        // TODO add your handling code here:
+        new AddEmployee().setVisible(true);
+    }//GEN-LAST:event_employeeActionPerformed
+
+    private void attendanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attendanceActionPerformed
+        // TODO add your handling code here:
+        new EmployeeAttendance().setVisible(true);
+    }//GEN-LAST:event_attendanceActionPerformed
+
+    private void paymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentActionPerformed
+        // TODO add your handling code here:
+        new Payroll().setVisible(true);
+    }//GEN-LAST:event_paymentActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        new AddEmployee().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        new EmployeeExperiance().setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        new EmployeeAttendance().setVisible(true);
+                
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+        new EmployeeShiftShedule().setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        new ShowEmployee().setVisible(true);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:
+        new Payroll().setVisible(true);
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -528,9 +693,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTable Checkin_table;
     private javax.swing.JButton LogOut;
     private javax.swing.JMenuBar Reports;
+    private javax.swing.JButton attendance;
+    private javax.swing.JButton employee;
+    private javax.swing.JMenu empmenu;
     private javax.swing.JMenuItem item_reg;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
@@ -539,8 +705,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu2;
@@ -550,19 +715,28 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel jpanelbar;
     private java.awt.Label label1;
     private java.awt.Label label2;
+    private javax.swing.JPanel panel1;
+    private javax.swing.JButton payment;
     private javax.swing.JTable reservations_table;
+    private javax.swing.JButton roominfo;
+    private javax.swing.JLabel user;
     // End of variables declaration//GEN-END:variables
 }

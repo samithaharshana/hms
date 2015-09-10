@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+
 /**
  *
  * @author Samitha
@@ -23,8 +24,26 @@ public class Reservation extends javax.swing.JFrame {
      * Creates new form Reservation
      */
     static Reservation res;
-    String arrival, depature;
+   public  String arrival, depature,uname;
+    
 
+    public Reservation(String uname) {
+        initComponents();
+        //this.setLocationRelativeTo(null);
+        this.setTitle("Reservations-Select Dates");
+        this.setSize(721, 430);
+        this.setLocation(300, 100);
+        this.setResizable(false);
+        setLayout(new BorderLayout()); // set a new boder layout
+        //adding a background image
+        JLabel background = new JLabel(new ImageIcon("C:\\Users\\Samitha\\Documents\\NetBeansProjects\\HMS\\src\\images\\res1.jpg"));
+        add(background);
+        background.setLayout(new FlowLayout());
+        this.uname=uname;
+        System.out.println("******&&"+uname);
+    }
+
+    
     public Reservation() {
         initComponents();
         //this.setLocationRelativeTo(null);
@@ -38,7 +57,6 @@ public class Reservation extends javax.swing.JFrame {
         add(background);
         background.setLayout(new FlowLayout());
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,7 +69,7 @@ public class Reservation extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        RoomsAndPrices = new javax.swing.JButton();
         depatureChooser = new datechooser.beans.DateChooserCombo();
         arrivalChooser = new datechooser.beans.DateChooserCombo();
 
@@ -66,10 +84,10 @@ public class Reservation extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(255, 255, 0));
         jLabel3.setText("Choose Depature Date");
 
-        jButton1.setText("Rooms and Prices");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        RoomsAndPrices.setText("Rooms and Prices");
+        RoomsAndPrices.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                RoomsAndPricesActionPerformed(evt);
             }
         });
 
@@ -81,7 +99,7 @@ public class Reservation extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(RoomsAndPrices, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(65, 65, 65))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,19 +129,34 @@ public class Reservation extends javax.swing.JFrame {
                     .addComponent(depatureChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(arrivalChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(RoomsAndPrices)
                 .addGap(101, 101, 101))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    public String getarrivaldate(){
+
+        return this.depature;
+}
+    
+    public String getdeparturedate(){
+    
+    
+    return this.arrival;
+    
+    }
+    
+    
+    
+    private void RoomsAndPricesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RoomsAndPricesActionPerformed
         // TODO add your handling code here:
 
         
         arrival = arrivalChooser.getText();
         depature = depatureChooser.getText();
+      
         int a = 0, b = 0;
         int temp1 = 0, temp2 = 0;
         Integer date=0 ,date1=0,date2= 0;
@@ -260,12 +293,12 @@ int month1=0;
         
         //convet int to string%
         //total nights
-        String datestr = date.toString();
-        reservation_selectRooms room = new reservation_selectRooms(Integer.parseInt(datestr));
+        String nights = date.toString();
+        reservation_selectRooms room = new reservation_selectRooms(Integer.parseInt(nights));
         room.setVisible(true);
         try {
 
-            room.text(arrival, depature, datestr);
+            room.text(arrival, depature, nights, uname);
 
             //room.getRef(res);
         } catch (SQLException ex) {
@@ -275,9 +308,9 @@ int month1=0;
         //System.out.println(noOfDays(2, 15));
                 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_RoomsAndPricesActionPerformed
 
-    
+    // method to calculate number of days per month
     public int noOfDays(int month,int year){
       if(year%4!=0){
       
@@ -357,9 +390,9 @@ int month1=0;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton RoomsAndPrices;
     private datechooser.beans.DateChooserCombo arrivalChooser;
     private datechooser.beans.DateChooserCombo depatureChooser;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -48,11 +48,13 @@ public class CheckInDetails extends javax.swing.JFrame {
             // load the combobox values to the form
             ResultSet rs2;
             Statement stmt;
-            conn = DBConnect.getConnection();
+            conn = DBConnect.getConnection(); //get the conection
             ////  Class.forName("com.mysql.jdbc.Driver");  // MySQL database connection
             //  conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hms?" + "user=root&password=");
             stmt = conn.createStatement();
             rs2 = stmt.executeQuery("select GuestID from guestdetails");
+            
+            //set values to combo box at loading time
             while (rs2.next()) {
                 guest_ID.addItem(rs2.getString("GuestID"));
 
@@ -83,7 +85,7 @@ public class CheckInDetails extends javax.swing.JFrame {
             stmt1 = conn.createStatement();
             rs3 = stmt1.executeQuery("select RoomType from roominfo");
             while (rs3.next()) {
-                RoomType.addItem(rs3.getString("RoomType"));
+                RoomType.addItem(rs3.getString("RoomType"));//fill combobox from values
             }
         } catch (SQLException ex) {
             Logger.getLogger(CheckInDetails.class.getName()).log(Level.SEVERE, null, ex);
@@ -155,7 +157,6 @@ public class CheckInDetails extends javax.swing.JFrame {
         setTitle("CheckIN Details");
         setBackground(new java.awt.Color(0, 255, 255));
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Guest Information", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
 
         jLabel1.setText("Guest ID");
@@ -288,7 +289,6 @@ public class CheckInDetails extends javax.swing.JFrame {
                     .addComponent(mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jPanel2.setBackground(new java.awt.Color(102, 102, 102));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Room Information", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
 
         RoomType.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -352,7 +352,6 @@ public class CheckInDetails extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "CheckIn Informatiom", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
 
         jLabel15.setText("CheckIn Date");
@@ -399,7 +398,6 @@ public class CheckInDetails extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(102, 102, 102));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Settement", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
 
         jLabel13.setText("Fee Per Day Rs:");
