@@ -16,6 +16,8 @@ import static org.junit.Assert.*;
  *
  * @author Samitha
  */
+
+//dfghjmxcbn xchndhjckx
 public class randomnumTest {
     
     public randomnumTest() {
